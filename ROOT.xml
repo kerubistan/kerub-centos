@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context 
+	docBase="/usr/share/kerub/kerub.war"
+	path="/"
+	unpackWAR="false">
+
+	<Loader className="org.apache.catalina.loader.VirtualWebappLoader"
+		virtualClasspath="/etc/kerub"/>
+
+</Context>
