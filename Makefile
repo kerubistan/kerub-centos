@@ -1,8 +1,15 @@
+date=$(shell date +%Y%m%d)
 
 clean:
 	rpmdev-wipetree
+	rm -f kerub.spec
 
 all: rpms
+
+kerub.spec:
+	echo version will be $(date)
+	cat kerub.spec.in | sed -e 's/VERSION/$(date)/g' > kerub.spec
+
 
 rpms: sources kerub.spec
 	rpmbuild -ba kerub.spec

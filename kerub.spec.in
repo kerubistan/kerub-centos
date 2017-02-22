@@ -8,7 +8,7 @@
 
 Name:		kerub
 Version:	master
-Release:	0.2
+Release:	VERSION
 Summary:	Kerub is an Infrastructure as a Service prototype
 
 Group:		Cloud Management Tools
@@ -59,12 +59,19 @@ install -pm 640 %{_sourcedir}/kerub.properties.cluster %{buildroot}%{configdir}/
 %{_datadir}/kerub/kerub.war
 %{configdir}
 %config(noreplace) %{configdir}/shiro.ini
+%attr(0640, root, tomcat) %{configdir}/shiro.ini
 %config(noreplace) %{configdir}/logback.xml
+%attr(0640, root, tomcat) %{configdir}/logback.xml
 %config(noreplace) %{configdir}/keystore.jks
+%attr(0640, root, tomcat) %{configdir}/keystore.jks
 %{configdir}/local
+%attr(0750, root, tomcat) %{configdir}/local
 %config(noreplace) %{configdir}/local/kerub.properties
+%attr(0750, root, tomcat) %{configdir}/local/kerub.properties
 %{configdir}/cluster
+%attr(0750, root, tomcat) %{configdir}/cluster
 %config(noreplace) %{configdir}/cluster/kerub.properties
+%attr(0750, root, tomcat) %{configdir}/cluster/kerub.properties
 %attr(0774, root, tomcat) %{datadir}
 %attr(0774, root, tomcat) %{logdir}
 %{_datadir}/tomcat/conf/Catalina/localhost/ROOT.xml
