@@ -1,4 +1,3 @@
-date=$(shell date +%Y%m%d)
 
 clean:
 	rpmdev-wipetree
@@ -7,8 +6,8 @@ clean:
 all: rpms
 
 kerub.spec:
-	echo version will be $(date)
-	cat kerub.spec.in | sed -e 's/VERSION/$(date)/g' > kerub.spec
+	echo version will be $(BUILD_ID)
+	cat kerub.spec.in | sed -e 's/VERSION/$(BUILD_ID)/g' > kerub.spec
 
 
 rpms: sources kerub.spec
@@ -26,4 +25,8 @@ sources: rpmdirs
 	cp logback.xml `rpm --eval "%{_sourcedir}"`
 	cp kerub.properties.local `rpm --eval "%{_sourcedir}"`
 	cp kerub.properties.cluster `rpm --eval "%{_sourcedir}"`
+
+upload: 
+	curl -T $(HOME)/rpmbuild/RPMS/noarch/kerub-master-$(BUILD_ID).noarch.rpm -uk0zka:$(APIKEY) https://api.bintray.com/content/k0zka/kerub-centos/kerub/master/kerub-master-$(BUILD_ID).rpm?publish=1
+
 
