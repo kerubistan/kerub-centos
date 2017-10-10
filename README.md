@@ -1,5 +1,7 @@
 # kerub-centos
 
+[ ![Download](https://api.bintray.com/packages/k0zka/kerub-centos/kerub/images/download.svg) ](https://bintray.com/k0zka/kerub-centos/kerub/_latestVersion)
+
 [Kerub](https://github.com/kerubistan/kerub) packaging for [centos](http://centos.org)
 
 ## Notes
