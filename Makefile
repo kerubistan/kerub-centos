@@ -27,7 +27,7 @@ sources: rpmdirs
 	cp kerub.properties.cluster `rpm --eval "%{_sourcedir}"`
 
 upload:
-	curl -uk0zka:$(APIKEY) -X POST --data-raw '{"name":"$(BUILD_ID)","desc":"Kerub IaaS build $(BUILD_ID)"}' https://api.bintray.com/packages/k0zka/kerub-centos/kerub/versions -v -H 'Content-Type: application/json'
+	curl -uk0zka:$(APIKEY) -X POST --data '{"name":"$(BUILD_ID)","desc":"Kerub IaaS build $(BUILD_ID)"}' https://api.bintray.com/packages/k0zka/kerub-centos/kerub/versions -v -H 'Content-Type: application/json'
 	curl -v -T $(HOME)/rpmbuild/RPMS/noarch/kerub-master-$(BUILD_ID).noarch.rpm -uk0zka:$(APIKEY) https://api.bintray.com/content/k0zka/kerub-centos/kerub/$(BUILD_ID)/kerub-master-$(BUILD_ID).rpm?publish=1
 
 
