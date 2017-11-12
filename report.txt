@@ -1,0 +1,168 @@
+
+found 3 alerts in /var/log/audit/audit.log
+--------------------------------------------------------------------------------
+
+SELinux is preventing /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64/jre/bin/java from execute access on the file libnetty-transport-native-epoll2750529043207694393.so.
+
+*****  Plugin catchall (100. confidence) suggests   **************************
+
+If you believe that java should be allowed execute access on the libnetty-transport-native-epoll2750529043207694393.so file by default.
+Then you should report this as a bug.
+You can generate a local policy module to allow this access.
+Do
+allow this access for now by executing:
+# ausearch -c 'java' --raw | audit2allow -M my-java
+# semodule -i my-java.pp
+
+
+Additional Information:
+Source Context                system_u:system_r:tomcat_t:s0
+Target Context                system_u:object_r:tomcat_cache_t:s0
+Target Objects                libnetty-transport-native-
+                              epoll2750529043207694393.so [ file ]
+Source                        java
+Source Path                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.151-1.b12.el
+                              7_4.x86_64/jre/bin/java
+Port                          <Unknown>
+Host                          <Unknown>
+Source RPM Packages           java-1.8.0-openjdk-
+                              headless-1.8.0.151-1.b12.el7_4.x86_64
+Target RPM Packages           
+Policy RPM                    selinux-policy-3.13.1-166.el7_4.5.noarch
+Selinux Enabled               True
+Policy Type                   targeted
+Enforcing Mode                Enforcing
+Host Name                     kerub-controller
+Platform                      Linux kerub-controller 3.10.0-693.5.2.el7.x86_64
+                              #1 SMP Fri Oct 20 20:32:50 UTC 2017 x86_64 x86_64
+Alert Count                   2
+First Seen                    2017-11-12 13:37:17 EST
+Last Seen                     2017-11-12 13:37:17 EST
+Local ID                      922d4177-5a34-453e-960e-43de409cddf5
+
+Raw Audit Messages
+type=AVC msg=audit(1510511837.999:192): avc:  denied  { execute } for  pid=1233 comm="java" name="libnetty-transport-native-epoll2750529043207694393.so" dev="dm-3" ino=12592722 scontext=system_u:system_r:tomcat_t:s0 tcontext=system_u:object_r:tomcat_cache_t:s0 tclass=file
+
+
+type=SYSCALL msg=audit(1510511837.999:192): arch=x86_64 syscall=access success=no exit=EACCES a0=7faff9f1b030 a1=1 a2=0 a3=6 items=0 ppid=1 pid=1233 auid=4294967295 uid=91 gid=91 euid=91 suid=91 fsuid=91 egid=91 sgid=91 fsgid=91 tty=(none) ses=4294967295 comm=java exe=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64/jre/bin/java subj=system_u:system_r:tomcat_t:s0 key=(null)
+
+Hash: java,tomcat_t,tomcat_cache_t,file,execute
+
+--------------------------------------------------------------------------------
+
+SELinux is preventing /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64/jre/bin/java from name_bind access on the tcp_socket port 61616.
+
+*****  Plugin bind_ports (92.2 confidence) suggests   ************************
+
+If you want to allow /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64/jre/bin/java to bind to network port 61616
+Then you need to modify the port type.
+Do
+# semanage port -a -t PORT_TYPE -p tcp 61616
+    where PORT_TYPE is one of the following: bctp_port_t, http_cache_port_t, http_port_t, mxi_port_t, transproxy_port_t.
+
+*****  Plugin catchall_boolean (7.83 confidence) suggests   ******************
+
+If you want to allow nis to enabled
+Then you must tell SELinux about this by enabling the 'nis_enabled' boolean.
+
+Do
+setsebool -P nis_enabled 1
+
+*****  Plugin catchall (1.41 confidence) suggests   **************************
+
+If you believe that java should be allowed name_bind access on the port 61616 tcp_socket by default.
+Then you should report this as a bug.
+You can generate a local policy module to allow this access.
+Do
+allow this access for now by executing:
+# ausearch -c 'java' --raw | audit2allow -M my-java
+# semodule -i my-java.pp
+
+
+Additional Information:
+Source Context                system_u:system_r:tomcat_t:s0
+Target Context                system_u:object_r:unreserved_port_t:s0
+Target Objects                port 61616 [ tcp_socket ]
+Source                        java
+Source Path                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.151-1.b12.el
+                              7_4.x86_64/jre/bin/java
+Port                          61616
+Host                          <Unknown>
+Source RPM Packages           java-1.8.0-openjdk-
+                              headless-1.8.0.151-1.b12.el7_4.x86_64
+Target RPM Packages           
+Policy RPM                    selinux-policy-3.13.1-166.el7_4.5.noarch
+Selinux Enabled               True
+Policy Type                   targeted
+Enforcing Mode                Enforcing
+Host Name                     kerub-controller
+Platform                      Linux kerub-controller 3.10.0-693.5.2.el7.x86_64
+                              #1 SMP Fri Oct 20 20:32:50 UTC 2017 x86_64 x86_64
+Alert Count                   1
+First Seen                    2017-11-12 13:37:18 EST
+Last Seen                     2017-11-12 13:37:18 EST
+Local ID                      b98489b8-ce79-4851-8670-a863920a7043
+
+Raw Audit Messages
+type=AVC msg=audit(1510511838.454:193): avc:  denied  { name_bind } for  pid=1233 comm="java" src=61616 scontext=system_u:system_r:tomcat_t:s0 tcontext=system_u:object_r:unreserved_port_t:s0 tclass=tcp_socket
+
+
+type=SYSCALL msg=audit(1510511838.454:193): arch=x86_64 syscall=bind success=no exit=EACCES a0=de a1=7fafef4f9220 a2=1c a3=7fafef4f8f20 items=0 ppid=1 pid=1233 auid=4294967295 uid=91 gid=91 euid=91 suid=91 fsuid=91 egid=91 sgid=91 fsgid=91 tty=(none) ses=4294967295 comm=java exe=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64/jre/bin/java subj=system_u:system_r:tomcat_t:s0 key=(null)
+
+Hash: java,tomcat_t,unreserved_port_t,tcp_socket,name_bind
+
+--------------------------------------------------------------------------------
+
+SELinux is preventing /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64/jre/bin/java from name_connect access on the tcp_socket port 22.
+
+*****  Plugin catchall_boolean (89.3 confidence) suggests   ******************
+
+If you want to allow nis to enabled
+Then you must tell SELinux about this by enabling the 'nis_enabled' boolean.
+
+Do
+setsebool -P nis_enabled 1
+
+*****  Plugin catchall (11.6 confidence) suggests   **************************
+
+If you believe that java should be allowed name_connect access on the port 22 tcp_socket by default.
+Then you should report this as a bug.
+You can generate a local policy module to allow this access.
+Do
+allow this access for now by executing:
+# ausearch -c 'java' --raw | audit2allow -M my-java
+# semodule -i my-java.pp
+
+
+Additional Information:
+Source Context                system_u:system_r:tomcat_t:s0
+Target Context                system_u:object_r:ssh_port_t:s0
+Target Objects                port 22 [ tcp_socket ]
+Source                        java
+Source Path                   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.151-1.b12.el
+                              7_4.x86_64/jre/bin/java
+Port                          22
+Host                          <Unknown>
+Source RPM Packages           java-1.8.0-openjdk-
+                              headless-1.8.0.151-1.b12.el7_4.x86_64
+Target RPM Packages           
+Policy RPM                    selinux-policy-3.13.1-166.el7_4.5.noarch
+Selinux Enabled               True
+Policy Type                   targeted
+Enforcing Mode                Enforcing
+Host Name                     kerub-controller
+Platform                      Linux kerub-controller 3.10.0-693.5.2.el7.x86_64
+                              #1 SMP Fri Oct 20 20:32:50 UTC 2017 x86_64 x86_64
+Alert Count                   1
+First Seen                    2017-11-12 13:38:55 EST
+Last Seen                     2017-11-12 13:38:55 EST
+Local ID                      2118d1d3-53c4-4991-aefd-594a949e81d8
+
+Raw Audit Messages
+type=AVC msg=audit(1510511935.169:194): avc:  denied  { name_connect } for  pid=1233 comm="java" dest=22 scontext=system_u:system_r:tomcat_t:s0 tcontext=system_u:object_r:ssh_port_t:s0 tclass=tcp_socket
+
+
+type=SYSCALL msg=audit(1510511935.169:194): arch=x86_64 syscall=connect success=no exit=EACCES a0=e8 a1=7fafec0c2950 a2=1c a3=7fafec0c2640 items=0 ppid=1 pid=1233 auid=4294967295 uid=91 gid=91 euid=91 suid=91 fsuid=91 egid=91 sgid=91 fsgid=91 tty=(none) ses=4294967295 comm=java exe=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64/jre/bin/java subj=system_u:system_r:tomcat_t:s0 key=(null)
+
+Hash: java,tomcat_t,ssh_port_t,tcp_socket,name_connect
+
