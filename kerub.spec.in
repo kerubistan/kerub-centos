@@ -4,6 +4,7 @@
 %global loc_configdir	%{_sysconfdir}/%{name}/local
 %global cls_configdir	%{_sysconfdir}/%{name}/cluster
 %global wardir		%{_datadir}/%{name}
+%global selinuxdir	%{_datadir}/selinux/targeted
 
 
 Name:		kerub
@@ -44,6 +45,7 @@ install -dm 755 %{buildroot}%{cls_configdir}
 install -dm 755 %{buildroot}%{wardir}
 install -dm 755 %{buildroot}%{_datadir}/tomcat/conf/Catalina/localhost/
 install -dm 755 %{buildroot}%{_datadir}/
+install -dm 755 %{buildroot}%{selinuxdir}
 
 install -pm 644 target/${name}*.war %{buildroot}%{wardir}/%{name}.war
 
@@ -53,6 +55,7 @@ install -pm 640 %{_sourcedir}/logback.xml %{buildroot}%{configdir}
 install -pm 640 %{_sourcedir}/keystore.jks %{buildroot}%{configdir}
 install -pm 640 %{_sourcedir}/kerub.properties.local %{buildroot}%{configdir}/local/kerub.properties
 install -pm 640 %{_sourcedir}/kerub.properties.cluster %{buildroot}%{configdir}/cluster/kerub.properties
+install -pm 644 %{_sourcedir}/kerub.pp %{buildroot}%{selinuxdir}
 
 %files
 %doc
@@ -76,7 +79,13 @@ install -pm 640 %{_sourcedir}/kerub.properties.cluster %{buildroot}%{configdir}/
 %attr(0774, root, tomcat) %{logdir}
 %{_datadir}/tomcat/conf/Catalina/localhost/ROOT.xml
 %attr(0770, root, tomcat) %{_datadir}/tomcat/conf/Catalina/localhost/ROOT.xml
+%{selinuxdir}/kerub.pp
 
+%post
+semodule -i %{selinuxdir}/kerub.pp
+
+%postun
+semodule -r kerub
 
 %changelog
 
