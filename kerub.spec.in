@@ -47,7 +47,7 @@ install -dm 755 %{buildroot}%{_datadir}/tomcat/conf/Catalina/localhost/
 install -dm 755 %{buildroot}%{_datadir}/
 install -dm 755 %{buildroot}%{selinuxdir}
 
-install -pm 644 target/${name}*.war %{buildroot}%{wardir}/%{name}.war
+install -pm 644 ${name}*.war %{buildroot}%{wardir}/%{name}.war
 
 install -pm 640 %{_sourcedir}/ROOT.xml %{buildroot}%{_datadir}/tomcat/conf/Catalina/localhost/
 install -pm 640 %{_sourcedir}/shiro.ini %{buildroot}%{configdir}
