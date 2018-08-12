@@ -1,13 +1,16 @@
 
+PACKAGE = $(shell ls kerub*.war)
+VERSION = $(shell echo $(PACKAGE) | sed -e 's/kerub-//g' | sed -e 's/.war//g' | sed -e 's/-SNAPSHOT//g')
+
 clean:
 	rpmdev-wipetree
 	rm -f kerub.spec
 
 all: rpms
 
-kerub.spec:
-	echo version will be $(BUILD_ID)
-	cat kerub.spec.in | sed -e 's/VERSION/$(BUILD_ID)/g' > kerub.spec
+kerub.spec: kerub.spec.in
+	echo version will be $(VERSION) build id $(BUILD_ID) - package file is $(package)
+	cat kerub.spec.in | sed -e 's/BUILD_ID/$(BUILD_ID)/g' | sed -e 's/PACKAGE/$(PACKAGE)/g' | sed -e 's/VERSION/$(VERSION)/g' > kerub.spec
 
 
 rpms: sources kerub.spec
@@ -26,9 +29,7 @@ sources: rpmdirs
 	cp kerub.pp `rpm --eval "%{_sourcedir}"`
 	cp kerub.properties.local `rpm --eval "%{_sourcedir}"`
 	cp kerub.properties.cluster `rpm --eval "%{_sourcedir}"`
-
-upload:
-	curl -uk0zka:$(APIKEY) -X POST --data '{"name":"$(BUILD_ID)","desc":"Kerub IaaS build $(BUILD_ID)"}' https://api.bintray.com/packages/k0zka/kerub-centos/kerub/versions -v -H 'Content-Type: application/json'
-	curl -v -T $(HOME)/rpmbuild/RPMS/noarch/kerub-master-$(BUILD_ID).noarch.rpm -uk0zka:$(APIKEY) https://api.bintray.com/content/k0zka/kerub-centos/kerub/$(BUILD_ID)/kerub-master-$(BUILD_ID).rpm?publish=1
+	mkdir -p `rpm --eval "%{_sourcedir}"`/kerub/$(VERSION)
+	cp $(PACKAGE) `rpm --eval "%{_sourcedir}"`
 
 

@@ -8,14 +8,14 @@
 
 
 Name:		kerub
-Version:	master
-Release:	VERSION
+Version:	VERSION
+Release:	BUILD_ID
 Summary:	Kerub is an Infrastructure as a Service prototype
 
 Group:		Cloud Management Tools
 License:	Apache license 2.0
 URL:		https://github.com/kerubistan/kerub
-Source0:	https://github.com/kerubistan/%{name}/archive/%{version}.tar.gz
+Source0:	PACKAGE
 Source2:	ROOT.xml
 
 BuildArch:	noarch
@@ -26,13 +26,10 @@ Requires:	java-1.8.0-openjdk-headless,tomcat
 Kerub is an Infrastructure as a Service prototype project to demonstrate 
 SLA-based workload planning
 
-%prep
-echo prep
-%setup -q
+#%prep
+#echo prep
+#%setup -q
 
-
-%build
-mvn package
 
 %install
 install -dm 775 %{buildroot}%{logdir}
@@ -47,7 +44,7 @@ install -dm 755 %{buildroot}%{_datadir}/tomcat/conf/Catalina/localhost/
 install -dm 755 %{buildroot}%{_datadir}/
 install -dm 755 %{buildroot}%{selinuxdir}
 
-install -pm 644 ${name}*.war %{buildroot}%{wardir}/%{name}.war
+install -pm 644 %{_sourcedir}/PACKAGE %{buildroot}%{wardir}/%{name}.war
 
 install -pm 640 %{_sourcedir}/ROOT.xml %{buildroot}%{_datadir}/tomcat/conf/Catalina/localhost/
 install -pm 640 %{_sourcedir}/shiro.ini %{buildroot}%{configdir}
